@@ -5,10 +5,9 @@ from .models import Profile
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
-    
     if created:
-        Profile.objects.create(user.instance)
-        
+        Profile.objects.create(user=instance)  # Fix: Correct usage of 'user' field
+
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    instance.profile.save()  # Ensure 'profile' is properly set up in the User-Profile relationship
