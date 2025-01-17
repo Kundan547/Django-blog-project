@@ -1,1 +1,1 @@
-# Django-blog-project
+A user-friendly and secure blog application built with Django. Features include user authentication, CRUD operations for posts, a commenting system, and a responsive design for a seamless experience on any device.
