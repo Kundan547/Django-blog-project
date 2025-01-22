@@ -55,7 +55,7 @@ jobs:
         chmod 600 private_key.pem
         
         # Deploy to EC2 using SSH
-        ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -v -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           # Pull the latest Docker image
           docker pull ${{ secrets.DOCKER_USERNAME }}/django-blog-password:latest
           
