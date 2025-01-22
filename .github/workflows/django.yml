@@ -47,17 +47,17 @@ jobs:
         tags: ${{ secrets.DOCKER_USERNAME }}/django-blog-password:latest
         dockerfile: ./django_project/Dockerfile  # Specify Dockerfile location
 
-    # Step 6: Set up SSH agent and deploy to AWS EC2
+    # Step 6: Set up SSH agent to allow SSH to EC2
     - name: Set up SSH agent
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # Reference your private key stored in GitHub secrets
+        ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  # Reference private key from GitHub secrets
 
     # Step 7: Deploy to AWS EC2
     - name: Deploy to AWS EC2
       run: |
         # Verbose SSH connection to debug and deploy
-        ssh -v -o StrictHostKeyChecking=no -T ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -v -o StrictHostKeyChecking=no -T -i /tmp/private_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           # Pull the latest Docker image
           docker pull ${{ secrets.DOCKER_USERNAME }}/django-blog-password:latest
           
