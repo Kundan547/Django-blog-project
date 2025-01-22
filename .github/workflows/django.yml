@@ -50,17 +50,17 @@ jobs:
     - name: Deploy to AWS EC2
       run: |
         ssh -v -o StrictHostKeyChecking=no -i /tmp/private_key.pem \
-           "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" << 'EOF'
+          "${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}" << EOF
           docker pull "${{ secrets.DOCKER_USERNAME }}/django-blog-password:latest"
           # Rolling update strategy (example with 2 instances)
           docker-compose down
           docker-compose up -d --no-deps web:1
           # Health check for instance 1 (add your health check command here)
-          # Example: curl -s http://localhost:8000/healthcheck && echo "Instance 1 healthy" || echo "Instance 1 unhealthy"
+          curl -s http://localhost:8000/healthcheck && echo "Instance 1 healthy" || echo "Instance 1 unhealthy"
           docker-compose down
           docker-compose up -d --no-deps web:2
           # Health check for instance 2
-          # ...
+          curl -s http://localhost:8000/healthcheck && echo "Instance 2 healthy" || echo "Instance 2 unhealthy"
           docker-compose down
           docker-compose up -d 
           EOF
