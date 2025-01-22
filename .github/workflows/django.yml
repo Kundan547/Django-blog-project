@@ -54,7 +54,7 @@ jobs:
         echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key.pem
         chmod 600 private_key.pem
         
-        # Deploy to EC2 using SSH
+        # Verbose SSH connection to debug and deploy
         ssh -v -o StrictHostKeyChecking=no -i private_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           # Pull the latest Docker image
           docker pull ${{ secrets.DOCKER_USERNAME }}/django-blog-password:latest
